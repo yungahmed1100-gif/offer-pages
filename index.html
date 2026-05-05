@@ -756,6 +756,31 @@
       margin-top: 4px;
     }
 
+    /* ─── FOOTER BRAND STAMP ──────────────────────────────────────── */
+    .footer-brand {
+      background: var(--cream);
+      border-top: 3px solid var(--dark);
+      padding: 56px 24px 0;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .footer-brand-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .footer-brand-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px 16px 0 0;
+      border: 2px solid var(--dark);
+      border-bottom: none;
+      box-shadow: 6px 0 0 var(--dark), -6px 0 0 var(--dark);
+    }
+
     /* CTA section overrides (dark bg) */
     #cta .trust-item { color: rgba(255,255,255,0.45); }
     #cta .trust-item .dot { background: var(--teal); }
@@ -872,6 +897,7 @@
     .benefit-card:nth-child(4) .benefit-icon { background: rgba(245,192,64,0.14); }
     .benefit-card:nth-child(5) .benefit-icon { background: rgba(232,100,58,0.12); }
     .benefit-card:nth-child(6) .benefit-icon { background: rgba(61,155,143,0.12); }
+    .benefit-card:nth-child(7) .benefit-icon { background: rgba(74,127,204,0.12); }
 
     /* Proof cards: colored left border accent */
     .proof-card { border-left: 4px solid transparent; }
@@ -891,6 +917,7 @@
     .offer-item:nth-child(4) .offer-check { background: var(--yellow); color: var(--dark); }
     .offer-item:nth-child(5) .offer-check { background: var(--orange); }
     .offer-item:nth-child(6) .offer-check { background: var(--teal); }
+    .offer-item:nth-child(7) .offer-check { background: var(--blue); }
 
     /* Step numbers: cycling brand colors */
     .step:nth-child(1) .step-num { background: var(--orange); box-shadow: 4px 4px 0 var(--dark); }
@@ -1473,6 +1500,22 @@
         </div>
       </div>
 
+      <div class="benefit-card">
+        <div class="benefit-icon">🌐</div>
+        <h3>
+          <span class="en-text">A Website That Books Patients for You</span>
+          <span class="ar-text">موقع إلكتروني يحجز المرضى تلقائياً</span>
+        </h3>
+        <p>
+          <span class="en-text">A professional, mobile-first clinic website built to convert visitors into booked appointments — not just look good. SEO-optimized, fast, and wired into your booking system.</span>
+          <span class="ar-text">موقع عيادة احترافي، مُحسَّن للجوال، مصمم لتحويل الزوار إلى مواعيد محجوزة — لا مجرد مظهر جميل. محسَّن لمحركات البحث وسريع ومرتبط بنظام الحجز.</span>
+        </p>
+        <div class="benefit-result">
+          <span class="en-text">Higher Google ranking + more direct bookings</span>
+          <span class="ar-text">ترتيب أعلى على جوجل + حجوزات مباشرة أكثر</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1569,8 +1612,8 @@
       <div class="offer-header">
         <h3>Clinic Growth Engine</h3>
         <p>
-          <span class="en-text">One system. Five integrated components. Unlimited locations.</span>
-          <span class="ar-text">نظام واحد. خمسة مكونات متكاملة. فروع غير محدودة.</span>
+          <span class="en-text">One system. Six integrated components. Unlimited locations.</span>
+          <span class="ar-text">نظام واحد. ستة مكونات متكاملة. فروع غير محدودة.</span>
         </p>
       </div>
 
@@ -1656,6 +1699,20 @@
             <p>
               <span class="en-text">A named account manager. Full setup in 14 days. Monthly strategy reviews. We don't just build it and disappear — we grow with you.</span>
               <span class="ar-text">مدير حساب مخصص. إعداد كامل في 14 يوماً. مراجعات استراتيجية شهرية. لا نبني ثم نختفي — ننمو معك.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="offer-item">
+          <div class="offer-check">✓</div>
+          <div class="offer-item-text">
+            <h4>
+              <span class="en-text">Professional Clinic Website — Built to Convert</span>
+              <span class="ar-text">موقع عيادة احترافي — مصمم للتحويل</span>
+            </h4>
+            <p>
+              <span class="en-text">A fully custom, mobile-first website designed specifically for clinic chains. SEO-optimized, Google Maps integrated, fast-loading, and built with conversion CTAs at every step — so your website becomes your best-performing salesperson.</span>
+              <span class="ar-text">موقع مخصص بالكامل، محسَّن للجوال، مصمم خصيصاً لسلاسل العيادات. محسَّن لمحركات البحث، مدمج مع خرائط جوجل، سريع التحميل، ومبني بعبارات تحريض على الإجراء في كل خطوة — لتكون موقعك أفضل مندوب مبيعات لديك.</span>
             </p>
           </div>
         </div>
@@ -1792,14 +1849,19 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════
-     FOOTER
+     FOOTER BRAND STAMP
+════════════════════════════════════════════════════════════════════ -->
+<div class="footer-brand">
+  <div class="footer-brand-inner">
+    <img src="assets/visual-identity.jpg" alt="BZNSFLOW — AI-Powered Growth Systems" class="footer-brand-img" />
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     FOOTER BAR
 ════════════════════════════════════════════════════════════════════ -->
 <footer>
   <div class="container">
-    <div class="footer-wordmark">
-      <span class="fw-b">B</span>ZNSFLOW
-      <span class="fw-tag">AI-POWERED GROWTH SYSTEMS</span>
-    </div>
     <div class="footer-contacts">
       <a href="https://wa.me/2010367930" target="_blank" class="footer-contact">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.556 4.122 1.526 5.855L.057 23.5l5.801-1.521A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.007-1.371l-.36-.213-3.44.902.918-3.352-.234-.373A9.818 9.818 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
