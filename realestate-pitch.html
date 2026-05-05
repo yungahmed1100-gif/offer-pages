@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bznsflow — Real Estate Growth Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────────────────────── */
+    :root {
+      --bz-black:  #1A1A1A;
+      --bz-green:  #3B9E6F;
+      --bz-blue:   #4A8FCC;
+      --bz-amber:  #F0A020;
+      --bz-coral:  #E36A5E;
+      --bz-cream:  #F5F3EE;
+      --bz-white:  #FFFFFF;
+      --bz-muted:  #6B6B68;
+      --bz-border: #E8E6E0;
+    }
+
+    /* ── RESET ──────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bz-cream);
+      color: var(--bz-black);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── LAYOUT ─────────────────────────────────────────────────────────── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 96px 0; }
+
+    /* ── SCROLL REVEAL ──────────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── TYPOGRAPHY HELPERS ─────────────────────────────────────────────── */
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bz-amber);
+      display: block;
+      margin-bottom: 14px;
+    }
+    .serif-headline {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      line-height: 1.1;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ── BUTTONS ────────────────────────────────────────────────────────── */
+    .btn-amber {
+      display: inline-block;
+      background: var(--bz-amber);
+      color: var(--bz-black);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 0 20px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 6px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .btn-amber:hover { opacity: 0.85; }
+    .btn-amber.lg {
+      font-size: 16px;
+      height: 56px;
+      line-height: 56px;
+      padding: 0 32px;
+      border-radius: 8px;
+    }
+    .btn-dark {
+      display: inline-block;
+      background: var(--bz-black);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 17px;
+      padding: 0 40px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .btn-dark:hover { opacity: 0.85; }
+
+    /* ────────────────────────────────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────────────────────────────────── */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 56px;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      backdrop-filter: blur(8px);
+      transition: background 0.3s, border-color 0.3s;
+      display: flex;
+      align-items: center;
+    }
+    #nav.scrolled {
+      background: rgba(26,26,26,0.96);
+      border-bottom-color: rgba(255,255,255,0.08);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-wordmark {
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      color: #fff;
+    }
+    .nav-sep { color: rgba(255,255,255,0.25); margin: 0 4px; }
+    .nav-sub { font-weight: 400; color: rgba(255,255,255,0.55); letter-spacing: 0; }
+
+    /* ────────────────────────────────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: var(--bz-black);
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 96px;
+    }
+    .hero-headline {
+      font-size: clamp(44px, 7vw, 72px);
+      color: #fff;
+      margin-bottom: 28px;
+      max-width: 660px;
+    }
+    .hero-sub {
+      font-weight: 300;
+      font-size: 20px;
+      color: rgba(255,255,255,0.65);
+      max-width: 520px;
+      margin-bottom: 44px;
+      line-height: 1.7;
+    }
+    .stat-pills {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .stat-pill {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 16px 20px;
+      min-width: 155px;
+    }
+    .stat-pill-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--bz-amber);
+      display: block;
+      margin-bottom: 5px;
+    }
+    .stat-pill-lbl {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.4;
+    }
+    .hero-microcopy {
+      margin-top: 14px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.38);
+    }
+
+    /* ────────────────────────────────────────────────────────────────────
+       SECTION HEADERS
+    ───────────────────────────────────────────────────────────────────── */
+    .section-head { margin-bottom: 56px; }
+    .section-head .serif-headline {
+      font-size: clamp(28px, 4vw, 42px);
+      color: var(--bz-black);
+      margin-bottom: 14px;
+    }
+    .section-head .serif-headline.light { color: #fff; }
+    .section-sub {
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--bz-muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+    .section-sub.light { color: rgba(255,255,255,0.55); }
+
+    /* ────────────────────────────────────────────────────────────────────
+       PROBLEM
+    ───────────────────────────────────────────────────────────────────── */
+    #problem { background: var(--bz-white); }
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .pain-card {
+      background: var(--bz-cream);
+      border: 1px solid var(--bz-border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .pain-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(240,160,32,0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bz-amber);
+      margin-bottom: 20px;
+    }
+    .pain-card h3 {
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .pain-card p {
+      font-size: 15px;
+      color: var(--bz-muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+    .pain-stat {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--bz-amber);
+    }
+
+    /* ────────────────────────────────────────────────────────────────────
+       ICP
+    ───────────────────────────────────────────────────────────────────── */
+    #icp { background: var(--bz-cream); }
+    .icp-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .icp-tab {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 1px solid var(--bz-border);
+      background: var(--bz-white);
+      color: var(--bz-muted);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .icp-tab:hover { border-color: var(--bz-black); color: var(--bz-black); }
+    .icp-tab.active {
+      background: var(--bz-black);
+      border-color: var(--bz-black);
+      color: #fff;
+    }
+    .icp-panels { position: relative; }
+    .icp-panel {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+    }
+    .icp-panel.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+      position: relative;
+    }
+    .persona-card {
+      background: var(--bz-black);
+      border-radius: 12px;
+      padding: 36px;
+    }
+    .persona-profile {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--bz-amber);
+      margin-bottom: 18px;
+    }
+    .persona-reality {
+      font-size: 16px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+    .persona-leak-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 6px;
+    }
+    .persona-leak {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--bz-coral);
+    }
+
+    /* ────────────────────────────────────────────────────────────────────
+       PRODUCTS
+    ───────────────────────────────────────────────────────────────────── */
+    #products { background: var(--bz-white); }
+    .stack-label {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--bz-muted);
+      background: var(--bz-cream);
+      border-radius: 6px;
+      padding: 9px 16px;
+      margin-bottom: 28px;
+    }
+    .product-panels { position: relative; }
+    .product-panel {
+      display: none;
+    }
+    .product-panel.active { display: block; }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .product-card {
+      background: var(--bz-white);
+      border: 1px solid var(--bz-border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .product-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    .priority-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--bz-amber);
+      color: var(--bz-black);
+      margin-bottom: 14px;
+    }
+    .product-name {
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .product-desc {
+      font-size: 14px;
+      color: var(--bz-muted);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+    .product-outcome {
+      font-size: 14px;
+      color: var(--bz-black);
+      line-height: 1.65;
+      padding: 12px 14px;
+      background: rgba(59,158,111,0.07);
+      border-left: 3px solid var(--bz-green);
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 16px;
+    }
+    .product-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--bz-black);
+      margin-bottom: 6px;
+    }
+    .product-roi {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--bz-green);
+    }
+
+    /* ────────────────────────────────────────────────────────────────────
+       ROI
+    ───────────────────────────────────────────────────────────────────── */
+    #roi { background: var(--bz-cream); }
+    .roi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .stat-card {
+      background: var(--bz-white);
+      border: 1px solid var(--bz-border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .stat-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--bz-green);
+      display: block;
+      margin-bottom: 6px;
+    }
+    .stat-lbl {
+      font-size: 13px;
+      color: var(--bz-muted);
+      line-height: 1.45;
+    }
+    .timeline { display: flex; flex-direction: column; }
+    .tl-item {
+      display: flex;
+      gap: 20px;
+      padding-bottom: 32px;
+      position: relative;
+    }
+    .tl-item:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 42px;
+      bottom: 0;
+      width: 2px;
+      background: var(--bz-border);
+    }
+    .tl-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bz-black);
+      border: 2px solid var(--bz-amber);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--bz-amber);
+      z-index: 1;
+    }
+    .tl-body h4 {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 6px;
+      padding-top: 9px;
+    }
+    .tl-body p {
+      font-size: 14px;
+      color: var(--bz-muted);
+      line-height: 1.65;
+    }
+
+    /* ────────────────────────────────────────────────────────────────────
+       GUARANTEE
+    ───────────────────────────────────────────────────────────────────── */
+    #guarantee { background: var(--bz-black); }
+    .guarantee-headline {
+      font-size: clamp(28px, 4vw, 48px);
+      color: #fff;
+      max-width: 660px;
+      margin-bottom: 28px;
+    }
+    .guarantee-body {
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      max-width: 600px;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+    .guarantee-pills {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .guarantee-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 14px;
+      color: #fff;
+    }
+    .guarantee-pill svg { color: var(--bz-green); flex-shrink: 0; }
+
+    /* ────────────────────────────────────────────────────────────────────
+       CTA
+    ───────────────────────────────────────────────────────────────────── */
+    #cta { background: var(--bz-cream); text-align: center; }
+    .cta-headline {
+      font-size: clamp(32px, 5vw, 56px);
+      color: var(--bz-black);
+      margin-bottom: 20px;
+    }
+    .cta-sub {
+      font-weight: 300;
+      font-size: 18px;
+      color: var(--bz-muted);
+      max-width: 560px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .cta-note {
+      font-size: 13px;
+      color: var(--bz-muted);
+      margin-top: 14px;
+      margin-bottom: 28px;
+    }
+    .trust-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      font-size: 13px;
+      color: var(--bz-muted);
+    }
+    .trust-item::before { content: '✓ '; color: var(--bz-green); font-weight: 600; }
+
+    /* ────────────────────────────────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────────────────────────────────── */
+    #footer {
+      background: var(--bz-black);
+      border-top: 1px solid var(--bz-border);
+      padding: 48px 0;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .footer-wm {
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      color: #fff;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+    }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 2px;
+    }
+    .footer-links a {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #fff; }
+    .footer-contact { text-align: right; }
+    .footer-email {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--bz-amber);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+    /* ────────────────────────────────────────────────────────────────────
+       PRINT
+    ───────────────────────────────────────────────────────────────────── */
+    @media print {
+      #nav { display: none; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      section { padding: 48px 0; page-break-inside: avoid; }
+      * { transition: none !important; animation: none !important; }
+    }
+
+    /* ────────────────────────────────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      section { padding: 64px 0; }
+      #hero { padding: 100px 0 64px; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .product-grid { grid-template-columns: 1fr; }
+      .roi-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .footer-contact { text-align: left; }
+      .btn-dark { width: 100%; text-align: center; display: block; }
+    }
+    @media (max-width: 480px) {
+      .stat-pills { flex-direction: column; }
+      .icp-tabs { flex-direction: column; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .guarantee-pills { flex-direction: column; }
+      .trust-row { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────────────────────── -->
+<nav id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-brand">
+        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="10" width="22" height="55" fill="#1A1A1A"/>
+          <rect x="20" y="35" width="28" height="28" fill="#3B9E6F"/>
+          <circle cx="62" cy="49" r="26" fill="#1A1A1A"/>
+          <circle cx="62" cy="49" r="14" fill="#4A8FCC"/>
+          <circle cx="34" cy="75" r="14" fill="#F0A020"/>
+          <rect x="34" y="63" width="28" height="14" fill="#E36A5E" rx="7"/>
+        </svg>
+        <span class="nav-wordmark">BZNSFLOW <span class="nav-sep">|</span> <span class="nav-sub">Real Estate</span></span>
+      </a>
+      <a href="mailto:ahmed@bznsflow.com?subject=Real%20Estate%20Growth%20Audit%20Request" class="btn-amber">Book Your Free Growth Audit →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="container">
+    <span class="label reveal">Growth Engineering for GCC Real Estate</span>
+    <h1 class="serif-headline hero-headline reveal" style="transition-delay:.1s">
+      Your competitors<br>are closing deals<br>you never knew<br>you lost.
+    </h1>
+    <p class="hero-sub reveal" style="transition-delay:.2s">
+      Every missed WhatsApp at 9pm. Every broker hour spent on a tire-kicker. Every ad dirham with no conversion tracking. It compounds — silently, every month. Bznsflow stops the leak and engineers your deal flow.
+    </p>
+    <div class="stat-pills reveal" style="transition-delay:.3s">
+      <div class="stat-pill">
+        <span class="stat-pill-num">30–40%</span>
+        <span class="stat-pill-lbl">of inbound leads lost after hours</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-pill-num">AED 20K</span>
+        <span class="stat-pill-lbl">average monthly ad spend wasted (untracked)</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-pill-num">15h/week</span>
+        <span class="stat-pill-lbl">average broker time lost on unqualified leads</span>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.4s">
+      <a href="mailto:ahmed@bznsflow.com?subject=Real%20Estate%20Growth%20Audit%20Request" class="btn-amber lg">Get My Free Growth Audit →</a>
+      <p class="hero-microcopy">No pitch call. No obligation. A 45-minute diagnostic — we show you exactly where your deals are leaking.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROBLEM ───────────────────────────────────────────────────────────── -->
+<section id="problem">
+  <div class="container">
+    <div class="section-head">
+      <span class="label reveal">The Problem</span>
+      <h2 class="serif-headline section-head reveal" style="font-size:clamp(28px,4vw,42px);margin-bottom:0;transition-delay:.1s">
+        Three silent killers draining your real estate revenue.
+      </h2>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card reveal" style="transition-delay:.1s">
+        <div class="pain-icon"><i data-lucide="clock" width="20" height="20"></i></div>
+        <h3>The After-Hours Black Hole</h3>
+        <p>A buyer messages at 10:15pm asking about a 3BR in JVC. You reply at 8am. They booked a competing viewing at 7am. That deal — worth AED 15,000 in commission — is gone. This happens every single night.</p>
+        <span class="pain-stat">30–40% of inbound leads lost after hours</span>
+      </div>
+      <div class="pain-card reveal" style="transition-delay:.2s">
+        <div class="pain-icon"><i data-lucide="filter" width="20" height="20"></i></div>
+        <h3>The Qualification Bottleneck</h3>
+        <p>Your brokers are driving site visits, preparing brochures, running WhatsApp follow-ups — for buyers with AED 600K budgets looking at AED 2M properties. Every hour spent on a tire-kicker is an hour not spent closing a real deal.</p>
+        <span class="pain-stat">15 hours/week per broker on unqualified leads</span>
+      </div>
+      <div class="pain-card reveal" style="transition-delay:.3s">
+        <div class="pain-icon"><i data-lucide="trending-down" width="20" height="20"></i></div>
+        <h3>The Untraceable Ad Spend</h3>
+        <p>You're spending AED 15,000–40,000/month on Google and Meta. But which campaign produced your last five deals? Without conversion tracking wired to your CRM, you're optimizing blind — and 60–70% of that spend is waste.</p>
+        <span class="pain-stat">AED 12,000–28,000/month wasted on untracked campaigns</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ICP ───────────────────────────────────────────────────────────────── -->
+<section id="icp">
+  <div class="container">
+    <span class="label reveal">Your Business</span>
+    <h2 class="serif-headline reveal" style="font-size:clamp(28px,4vw,42px);margin-bottom:14px;transition-delay:.1s">
+      What kind of real estate operation are you?
+    </h2>
+    <p class="section-sub reveal" style="transition-delay:.2s;margin-bottom:36px">
+      The right stack depends on where you are. Pick your profile.
+    </p>
+    <div class="icp-tabs reveal" style="transition-delay:.3s">
+      <button class="icp-tab active" data-icp="solo">Solo Agent / Boutique</button>
+      <button class="icp-tab" data-icp="agency">Growing Agency</button>
+      <button class="icp-tab" data-icp="developer">Property Developer</button>
+    </div>
+    <div class="icp-panels" style="min-height:220px">
+      <div class="icp-panel active" id="icp-solo">
+        <div class="persona-card">
+          <p class="persona-profile">1–5 brokers · Dubai / Abu Dhabi secondary listings · AED 5M–30M monthly GTV</p>
+          <p class="persona-reality">You run on hustle. WhatsApp is your CRM. You're the receptionist, broker, and marketing team. You close deals because of skill — but you're losing 30% of them to competitors who have systems.</p>
+          <p class="persona-leak-label">Your biggest leak</p>
+          <p class="persona-leak">After-hours lead loss + unqualified lead waste</p>
+        </div>
+      </div>
+      <div class="icp-panel" id="icp-agency">
+        <div class="persona-card">
+          <p class="persona-profile">5–25 brokers · Dubai / Riyadh · AED 50M–300M monthly GTV</p>
+          <p class="persona-reality">You have brokers. You have ad spend. But you have no visibility into your pipeline. Deals fall through the cracks. Nobody knows which broker followed up. Your Google and Meta budget is burning with no attribution.</p>
+          <p class="persona-leak-label">Your biggest leak</p>
+          <p class="persona-leak">Pipeline collapse + untracked ad waste</p>
+        </div>
+      </div>
+      <div class="icp-panel" id="icp-developer">
+        <div class="persona-card">
+          <p class="persona-profile">Off-plan launches · Dubai / Riyadh · AED 200M–2B project GDV</p>
+          <p class="persona-reality">You have a 60–90 day launch window. You need volume leads, instantly qualified, with your reputation pristine before a single viewing is booked. One viral bad review can kill a launch week.</p>
+          <p class="persona-leak-label">Your biggest leak</p>
+          <p class="persona-leak">Lead qualification at scale + trust gap for off-plan sales</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRODUCTS ──────────────────────────────────────────────────────────── -->
+<section id="products">
+  <div class="container">
+    <span class="label reveal">The Solution</span>
+    <h2 class="serif-headline reveal" style="font-size:clamp(28px,4vw,42px);margin-bottom:14px;transition-delay:.1s">
+      Your deal flow system. Not a software bundle.
+    </h2>
+    <p class="section-sub reveal" style="transition-delay:.2s;margin-bottom:40px">
+      These products compound. Each one makes the next more powerful.
+    </p>
+    <div class="product-panels">
+
+      <!-- Solo -->
+      <div class="product-panel active" id="products-solo">
+        <span class="stack-label">Starter Deal Flow System — AED 2,600/month entry</span>
+        <div class="product-grid">
+          <div class="product-card">
+            <span class="priority-badge">#1 · Highest Impact</span>
+            <p class="product-name">AI Smart Receptionist</p>
+            <p class="product-desc">24/7 AI voice + WhatsApp agent. Captures every lead, books viewings, answers FAQs in Arabic and English — while you sleep.</p>
+            <p class="product-outcome">That 10pm WhatsApp? The AI qualifies the buyer, books a viewing for 9am, and sends you a full brief before you wake up.</p>
+            <p class="product-price">AED 950/month · Setup: AED 1,500 (one-time)</p>
+            <p class="product-roi">Eliminates 1 lost deal/month = payback in week 1</p>
+          </div>
+          <div class="product-card">
+            <span class="priority-badge">#2 · Core Efficiency</span>
+            <p class="product-name">AI Lead Qualification Chatbot</p>
+            <p class="product-desc">Deployed on your website and WhatsApp. Asks: budget, timeline, pre-approved, property type, area. Only routes serious buyers to you — with full context.</p>
+            <p class="product-outcome">Instead of 10 random viewings, you get 3 qualified appointments. Your closing rate jumps because you only see real buyers.</p>
+            <p class="product-price">AED 2,200 setup + AED 550/month</p>
+            <p class="product-roi">10–15 broker hours saved weekly</p>
+          </div>
+          <div class="product-card">
+            <span class="priority-badge">#3 · Trust Builder</span>
+            <p class="product-name">Online Reputation Management</p>
+            <p class="product-desc">Automated review requests after every deal. Professional responses to all Google/Bayut reviews within 24h. Negative feedback intercepted privately first.</p>
+            <p class="product-outcome">+0.8 stars on Google within 90 days. Every star = 28% more incoming calls.</p>
+            <p class="product-price">AED 1,100/month · Setup: AED 800 (one-time)</p>
+            <p class="product-roi">1-star improvement = 28% more conversion on Google profile</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agency -->
+      <div class="product-panel" id="products-agency">
+        <span class="stack-label">Agency Growth System — AED 9,800/month entry</span>
+        <div class="product-grid">
+          <div class="product-card">
+            <span class="priority-badge">#1 · Command Center</span>
+            <p class="product-name">Custom Business CRM (Real Estate Tier)</p>
+            <p class="product-desc">Visual pipeline: New → Qualified → Viewed → Offer → SPA → Closed. Every broker's deals visible in real time. Automated WhatsApp follow-up sequences trigger after each stage. UAE VAT invoicing built-in.</p>
+            <p class="product-outcome">Your sales manager sees every deal at every stage. Leads never fall through the cracks again. Brokers spend time closing, not admin.</p>
+            <p class="product-price">AED 14,000 setup + AED 1,600/month (Real Estate Tier)</p>
+            <p class="product-roi">8–14% shorter sales cycle · 27% better client retention</p>
+          </div>
+          <div class="product-card">
+            <span class="priority-badge">#2 · Lead Filter</span>
+            <p class="product-name">AI Lead Qualification Chatbot</p>
+            <p class="product-desc">Handles 100–500 simultaneous inquiries across website, WhatsApp, Instagram DM. Scores each lead: budget, timeline, pre-approval, property type, area. Hot leads routed to brokers in 90 seconds with full briefing. CRM sync = zero manual data entry.</p>
+            <p class="product-outcome">Your brokers only speak to pre-qualified buyers. Sales team handles 2× the lead volume with the same headcount.</p>
+            <p class="product-price">AED 3,800 setup + AED 900/month</p>
+            <p class="product-roi">2× leads processed · 28% better lead-to-close rate</p>
+          </div>
+          <div class="product-card">
+            <span class="priority-badge">#3 · Ad Attribution</span>
+            <p class="product-name">Paid Ads Management (Google + Meta)</p>
+            <p class="product-desc">Full-service Google Search + Meta campaign management. Conversion tracking wired to your CRM (GA4 + Meta CAPI). Weekly optimization. You finally know which portal, which campaign, which creative is producing your best buyers.</p>
+            <p class="product-outcome">AED 12,000–20,000/month in wasted ad spend recovered in month 1. Average ROAS: 200–800% for managed campaigns vs. self-managed.</p>
+            <p class="product-price">AED 5,500/month (AED 10–40K spend tier) · Setup: AED 1,500</p>
+            <p class="product-roi">CPL reduced 30–50% · Managed campaigns avg. 200–800% ROAS</p>
+          </div>
+          <div class="product-card">
+            <span class="priority-badge">#4 · Local Dominance</span>
+            <p class="product-name">Google Business & Local SEO</p>
+            <p class="product-desc">Full Google Business Profile optimization for your office locations. NAP citations across 50+ directories. 4 monthly GBP posts. Automated review generation system. Arabic + English keyword targeting.</p>
+            <p class="product-outcome">7× more clicks from your Google profile. Pure organic traffic — no paid media required for this entire channel.</p>
+            <p class="product-price">AED 1,800/month (single location) · Setup: AED 1,500</p>
+            <p class="product-roi">7× more profile clicks · 35% more website visits in 90 days</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Developer -->
+      <div class="product-panel" id="products-developer">
+        <span class="stack-label">Developer Launch System — AED 18,200/month (launch mode)</span>
+        <div class="product-grid">
+          <div class="product-card">
+            <span class="priority-badge">#1 · Lead Generation Engine</span>
+            <p class="product-name">Paid Ads Management (Google + Meta + TikTok)</p>
+            <p class="product-desc">Developer-specific campaign structure: investor lookalike audiences on Meta, property-search intent on Google, under-35 end-user buyers on TikTok. Dedicated creative per audience segment. KPI: cost-per-SPA-signed, not cost-per-click.</p>
+            <p class="product-outcome">500–2,000 campaign-generated leads per launch window. You know your exact cost-per-qualified-buyer before you scale spend.</p>
+            <p class="product-price">AED 9,500/month or 12% of spend · Setup: AED 1,500</p>
+            <p class="product-roi">One additional off-plan unit sold = 50–200× the monthly service fee</p>
+          </div>
+          <div class="product-card">
+            <span class="priority-badge">#2 · Sales Intelligence Layer</span>
+            <p class="product-name">AI Lead Qualification Chatbot (Advanced)</p>
+            <p class="product-desc">Handles launch-volume inquiry loads simultaneously. Qualification scoring: liquid investment capital, GCC resident vs overseas investor, units of interest, timeline. Hot leads routed to Sales Directors within 90 seconds with a complete brief.</p>
+            <p class="product-outcome">Your Sales Directors only sit with buyers who can sign. No wasted 2-hour meetings with someone who saw your Instagram and was "just curious."</p>
+            <p class="product-price">AED 6,000 setup + AED 1,400/month</p>
+            <p class="product-roi">Sales team handles 2× inquiry volume · 28% better close rate</p>
+          </div>
+          <div class="product-card">
+            <span class="priority-badge">#3 · Pre-Launch Reputation</span>
+            <p class="product-name">Online Reputation Management (Full Suite)</p>
+            <p class="product-desc">Deploy 3 months before launch. Systematic review generation from previous project buyers. Crisis intercept protocol — negative feedback goes to a private form before Google. Professional response management 24/7.</p>
+            <p class="product-outcome">Moving from 4.1★ to 4.7★ before launch week materially increases conversion at launch events. Investors Google you before they come in.</p>
+            <p class="product-price">AED 2,800/month (Full Suite) · Setup: AED 800</p>
+            <p class="product-roi">+0.8 stars in 90 days · 28% conversion increase per star gained</p>
+          </div>
+          <div class="product-card">
+            <span class="priority-badge">#4 · Trust & Vision Content</span>
+            <p class="product-name">Short-Form Video Content System</p>
+            <p class="product-desc">Monthly production: construction progress Reels, render walkthroughs, neighborhood lifestyle shoots, developer credibility stories, testimonials from previous project buyers. Arabic + English subtitles. Published to Instagram, TikTok, YouTube Shorts.</p>
+            <p class="product-outcome">Video closes the imagination gap in off-plan sales. Investors buy the story before they buy the unit. Video ads reduce CPL by 35% vs static creatives.</p>
+            <p class="product-price">AED 4,500/month (8 Reels/month)</p>
+            <p class="product-roi">3× more DM inquiries · 35% lower CPL on video vs static ads</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── ROI ───────────────────────────────────────────────────────────────── -->
+<section id="roi">
+  <div class="container">
+    <span class="label reveal">The Numbers</span>
+    <h2 class="serif-headline reveal" style="font-size:clamp(28px,4vw,42px);margin-bottom:48px;transition-delay:.1s">
+      What growth engineering looks like in the first 90 days.
+    </h2>
+    <div class="roi-grid">
+      <div class="stats-grid">
+        <div class="stat-card reveal">
+          <span class="stat-num stat-counter" data-target="80" data-suffix="%">0%</span>
+          <span class="stat-lbl">Qualified lead conversion rate (AI-routed leads)</span>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:.1s">
+          <span class="stat-num stat-counter" data-target="2" data-suffix="×">0×</span>
+          <span class="stat-lbl">More leads processed with same team after AI chatbot deployment</span>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:.2s">
+          <span class="stat-num">AED 12K+</span>
+          <span class="stat-lbl">Average monthly ad waste recovered in month 1 (attribution setup)</span>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:.3s">
+          <span class="stat-num stat-counter" data-target="28" data-suffix="%">0%</span>
+          <span class="stat-lbl">Conversion increase per star gained in Google rating</span>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:.4s">
+          <span class="stat-num">8–14%</span>
+          <span class="stat-lbl">Shorter sales cycle after CRM pipeline implementation</span>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:.5s">
+          <span class="stat-num stat-counter" data-target="30" data-suffix=" days">0 days</span>
+          <span class="stat-lbl">Typical payback period — Solo Agent stack</span>
+        </div>
+      </div>
+      <div class="timeline reveal" style="transition-delay:.2s">
+        <div class="tl-item">
+          <div class="tl-dot">D7</div>
+          <div class="tl-body">
+            <h4>Systems live</h4>
+            <p>AI receptionist and chatbot deployed. Conversion tracking wired. First qualified leads auto-routed to brokers.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">D30</div>
+          <div class="tl-body">
+            <h4>First data</h4>
+            <p>You know which channel produces your best buyers. Ad waste identified. Broker time saved quantified. First reviews coming in.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">D90</div>
+          <div class="tl-body">
+            <h4>Full compounding</h4>
+            <p>Pipeline visibility complete. Google rating trending up. Ad performance optimized with 90 days of clean data. ROI positive.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GUARANTEE ─────────────────────────────────────────────────────────── -->
+<section id="guarantee">
+  <div class="container">
+    <span class="label reveal">The Guarantee</span>
+    <h2 class="serif-headline guarantee-headline reveal" style="transition-delay:.1s">
+      "The most expensive decision you can make is staying with systems that don't work."
+    </h2>
+    <p class="guarantee-body reveal" style="transition-delay:.2s">
+      We call it the Seamless Migration guarantee. Every Bznsflow system is live and integrated within 5–10 business days. You don't need to shut down operations, run two systems in parallel, or train your team for weeks. We handle migration, integration, and go-live.<br><br>
+      If you're not satisfied in the first 30 days, we'll refund your setup fee — no questions asked.
+    </p>
+    <div class="guarantee-pills reveal" style="transition-delay:.3s">
+      <div class="guarantee-pill"><i data-lucide="check-circle" width="18" height="18"></i> Live in 5–10 business days</div>
+      <div class="guarantee-pill"><i data-lucide="check-circle" width="18" height="18"></i> 30-day setup fee refund guarantee</div>
+      <div class="guarantee-pill"><i data-lucide="check-circle" width="18" height="18"></i> Dedicated onboarding manager</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────────────────────── -->
+<section id="cta">
+  <div class="container">
+    <h2 class="serif-headline cta-headline reveal">
+      Stop engineering leads for<br>your competitors.
+    </h2>
+    <p class="cta-sub reveal" style="transition-delay:.1s">
+      Book a 45-minute Growth Audit. We map exactly where your deal flow is leaking and show you the precise stack to fix it — before you spend a single dirham.
+    </p>
+    <div class="reveal" style="transition-delay:.2s">
+      <a href="mailto:ahmed@bznsflow.com?subject=Real%20Estate%20Growth%20Audit%20Request" class="btn-dark">Book My Free Growth Audit →</a>
+      <p class="cta-note">No sales pitch. No obligation. We show you the leaks — you decide what to fix.</p>
+      <div class="trust-row">
+        <span class="trust-item">45-minute session</span>
+        <span class="trust-item">GCC market specialists</span>
+        <span class="trust-item">Response within 24 hours</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────────────────────── -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="10" width="22" height="55" fill="#1A1A1A"/>
+            <rect x="20" y="35" width="28" height="28" fill="#3B9E6F"/>
+            <circle cx="62" cy="49" r="26" fill="#1A1A1A"/>
+            <circle cx="62" cy="49" r="14" fill="#4A8FCC"/>
+            <circle cx="34" cy="75" r="14" fill="#F0A020"/>
+            <rect x="34" y="63" width="28" height="14" fill="#E36A5E" rx="7"/>
+          </svg>
+          <span class="footer-wm">BZNSFLOW</span>
+        </div>
+        <p class="footer-tagline">Growth Engineering for GCC & European SMEs</p>
+      </div>
+      <nav class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Our Products</a>
+        <a href="#">Case Studies</a>
+        <a href="mailto:ahmed@bznsflow.com">Contact</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:ahmed@bznsflow.com" class="footer-email">ahmed@bznsflow.com</a>
+        <a href="https://wa.me/201036755930" target="_blank" class="footer-email" style="color:var(--bz-green)">WhatsApp: +20 1036755930</a>
+        <a href="tel:+96899656590" class="footer-email" style="color:rgba(255,255,255,0.55)">Call: +968 99656590</a>
+        <p class="footer-copy">© 2026 Bznsflow</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Lucide icons
+  lucide.createIcons();
+
+  // ── Sticky nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  // ── ICP tabs (persona + products in sync)
+  const icpTabs     = document.querySelectorAll('.icp-tab');
+  const icpPanels   = document.querySelectorAll('.icp-panel');
+  const prodPanels  = document.querySelectorAll('.product-panel');
+
+  icpTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const key = tab.dataset.icp;
+      icpTabs.forEach(t => t.classList.remove('active'));
+      icpPanels.forEach(p => p.classList.remove('active'));
+      prodPanels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('icp-' + key).classList.add('active');
+      document.getElementById('products-' + key).classList.add('active');
+    });
+  });
+
+  // ── Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  // ── Stat counters
+  function animateCounter(el) {
+    const target   = parseFloat(el.dataset.target);
+    const suffix   = el.dataset.suffix || '';
+    const duration = 1200;
+    const start    = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const v = Math.round((1 - Math.pow(1 - p, 3)) * target);
+      el.textContent = v + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.stat-counter').forEach(el => counterObs.observe(el));
+</script>
+</body>
+</html>
